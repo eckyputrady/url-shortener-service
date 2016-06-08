@@ -1,8 +1,6 @@
 package com.eckyputrady.shorturl.url;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * Created by ecky on 07/06/16.
@@ -10,6 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Builder
 public class ShortenUrlForm {
     private String longUrl;
 }

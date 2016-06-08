@@ -1,6 +1,7 @@
 package com.eckyputrady.shorturl.url;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,7 @@ import java.io.IOException;
 @Slf4j
 public class UrlController {
 
-    @RequestMapping(path = "/url", method = RequestMethod.POST)
+    @RequestMapping(path = "/url", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ShortenedUrl shortenUrl(@RequestBody ShortenUrlForm form) {
         log.info("Shortening form: {}", form);
         return new ShortenedUrl();

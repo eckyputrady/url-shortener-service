@@ -13,4 +13,19 @@ import lombok.ToString;
 public class ShortenedUrl {
     private String id;
     private String longUrl;
+    private Analytics analytics;
+
+    @Getter
+    @Setter
+    @ToString
+    public static class Analytics {
+        private AnalyticsData allTime;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class AnalyticsData {
+        private long shortUrlClicks;
+    }
 }
