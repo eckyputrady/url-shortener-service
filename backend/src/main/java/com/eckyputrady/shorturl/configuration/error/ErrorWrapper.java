@@ -1,10 +1,8 @@
-package com.eckyputrady.shorturl.error;
+package com.eckyputrady.shorturl.configuration.error;
 
 import lombok.*;
-import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
