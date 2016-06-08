@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 /**
@@ -15,8 +16,14 @@ import java.io.IOException;
 public class UrlController {
 
     @RequestMapping(path = "/url", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ShortenedUrl shortenUrl(@RequestBody ShortenUrlForm form) {
+    public ShortenedUrl shortenUrl(@Valid @RequestBody ShortenUrlForm form) {
         log.info("Shortening form: {}", form);
+        return new ShortenedUrl();
+    }
+
+    @RequestMapping("/url")
+    public ShortenedUrl expand(@Valid ShortUrlQueryParam param) {
+        log.info("Expanding {}", param);
         return new ShortenedUrl();
     }
 
@@ -24,11 +31,5 @@ public class UrlController {
     public void resolve(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         log.info("Resolving id {}", id);
         response.sendRedirect("/" + id);
-    }
-
-    @RequestMapping("/url")
-    public ShortenedUrl expand(ShortUrlQueryParam param) {
-        log.info("Expanding {}", param);
-        return new ShortenedUrl();
     }
 }

@@ -42,7 +42,7 @@ public class UrlControllerTest {
 
     @Test
     public void testShortenUrl() throws Exception {
-        ShortenUrlForm form = ShortenUrlForm.builder().longUrl(LONG_URL).build();
+        ShortenUrlForm form = new ShortenUrlForm(LONG_URL);
 
         RestAssured
                 .given()
@@ -57,7 +57,7 @@ public class UrlControllerTest {
 
     @Test
     public void testShortenUrl_NotUrl_Returns400() throws Exception {
-        ShortenUrlForm form = ShortenUrlForm.builder().longUrl("invalid_url goes here").build();
+        ShortenUrlForm form = new ShortenUrlForm("invalid_url goes here");
 
         RestAssured
                 .given()
@@ -87,6 +87,7 @@ public class UrlControllerTest {
     public void testResolve_NotFoundUrl_Returns404() throws Exception {
         RestAssured
                 .given()
+                    .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
                 .get("/invalid")
                 .then()
                     .statusCode(404);
@@ -132,7 +133,8 @@ public class UrlControllerTest {
     //// Helper
 
     private String shortenUrl(String longUrl) {
-        ShortenUrlForm form = ShortenUrlForm.builder().longUrl(longUrl).build();
+        ShortenUrlForm form = new ShortenUrlForm(longUrl);
+
         return RestAssured
                 .given()
                     .content("application/json")

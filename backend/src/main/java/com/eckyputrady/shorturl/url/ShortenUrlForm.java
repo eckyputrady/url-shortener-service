@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShortenUrlForm {
     @NotNull
     @URL

@@ -1,8 +1,8 @@
 package com.eckyputrady.shorturl.url;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by ecky on 07/06/16.
@@ -10,7 +10,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShortUrlQueryParam {
+    @NotNull
     private String shortUrl;
+    
     private Projection projection;
 }

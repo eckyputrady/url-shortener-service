@@ -1,8 +1,6 @@
 package com.eckyputrady.shorturl.url;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * Created by ecky on 07/06/16.
@@ -10,6 +8,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShortenedUrl {
     private String id;
     private String longUrl;
@@ -18,6 +18,8 @@ public class ShortenedUrl {
     @Getter
     @Setter
     @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Analytics {
         private AnalyticsData allTime;
     }
@@ -25,6 +27,8 @@ public class ShortenedUrl {
     @Getter
     @Setter
     @ToString
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AnalyticsData {
         private long shortUrlClicks;
     }
