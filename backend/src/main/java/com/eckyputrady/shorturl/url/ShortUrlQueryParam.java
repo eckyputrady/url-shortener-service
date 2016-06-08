@@ -1,8 +1,7 @@
 package com.eckyputrady.shorturl.url;
 
 import lombok.*;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by ecky on 07/06/16.
@@ -13,8 +12,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShortUrlQueryParam {
-    @NotNull
+    @NotEmpty
     private String shortUrl;
-    
+
     private Projection projection;
 }

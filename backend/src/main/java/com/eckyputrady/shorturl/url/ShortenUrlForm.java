@@ -1,9 +1,8 @@
 package com.eckyputrady.shorturl.url;
 
 import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by ecky on 07/06/16.
@@ -14,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShortenUrlForm {
-    @NotNull
+    @NotEmpty
     @URL
     private String longUrl;
 }
