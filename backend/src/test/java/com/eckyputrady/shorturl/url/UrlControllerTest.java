@@ -36,6 +36,7 @@ public class UrlControllerTest {
     @Before
     public void setup() {
         RestAssured.port = port;
+        RestAssured.authentication = RestAssured.basic("short", "url");
     }
 
     //// Shorten endpoint
