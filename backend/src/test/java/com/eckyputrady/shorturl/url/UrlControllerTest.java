@@ -141,6 +141,24 @@ public class UrlControllerTest {
                     .statusCode(400);
     }
 
+    @Test
+    @FlywayTest
+    public void testExpandAnalytics() throws Exception {
+        String shortUrl = shortenUrl(LONG_URL);
+        resolve(shortUrl);
+        resolve(shortUrl);
+
+        RestAssured
+                .given()
+                    .param("shortUrl", shortUrl)
+                    .param("projection", "FULL")
+                .get("/url")
+                .then()
+                    .statusCode(200)
+                    .body("longUrl", equalTo(LONG_URL))
+                    .body("analytics.allTime.shortUrlClicks", equalTo(2));
+    }
+
     //// Helper
 
     private String shortenUrl(String longUrl) {
@@ -154,5 +172,14 @@ public class UrlControllerTest {
                 .then()
                     .extract()
                         .path("id");
+    }
+
+    private void resolve(String shortUrl) {
+        RestAssured
+                .given()
+                    .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
+                .get("/" + shortUrl)
+                    .then()
+                    .statusCode(302);
     }
 }
