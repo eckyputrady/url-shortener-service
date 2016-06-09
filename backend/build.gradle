@@ -8,12 +8,15 @@ buildscript {
     dependencies {
         classpath "de.aaschmid.gradle.plugins:gradle-cpd-plugin:0.4"
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+        classpath "mysql:mysql-connector-java:5.1.6"
+        classpath "org.flywaydb:flyway-gradle-plugin:3.2.1"
     }
 }
 
 apply plugin : "distribution"
 apply plugin: "spring-boot"
 apply from : "sca.gradle"
+apply plugin: 'org.flywaydb.flyway'
 
 repositories {
     mavenCentral()
@@ -24,10 +27,16 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile('org.projectlombok:lombok:1.16.6')
+    runtime 'mysql:mysql-connector-java'
+    compile 'org.flywaydb:flyway-core:3.2.1'
     testCompile("junit:junit")
     testCompile("com.jayway.restassured:rest-assured:2.9.0")
 }
 
+flyway {
+    url = 'jdbc:mysql://localhost:3306/ombaq_backend'
+    user = 'root'
+}
 
 repositories {
     maven {
