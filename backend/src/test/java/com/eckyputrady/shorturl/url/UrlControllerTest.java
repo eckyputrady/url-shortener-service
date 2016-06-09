@@ -4,6 +4,9 @@ import com.eckyputrady.shorturl.Application;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.RedirectConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
+import com.jayway.restassured.http.ContentType;
+import org.flywaydb.test.annotation.FlywayTest;
+import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -12,7 +15,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.hamcrest.Matchers.*;
@@ -25,6 +31,7 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(classes = Application.class)
 @IntegrationTest("server.port:0")
 @WebAppConfiguration
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, FlywayTestExecutionListener.class })
 public class UrlControllerTest {
 
     // Will contain the random free port number
@@ -42,18 +49,19 @@ public class UrlControllerTest {
     //// Shorten endpoint
 
     @Test
+    @FlywayTest
     public void testShortenUrl() throws Exception {
         ShortenUrlForm form = new ShortenUrlForm(LONG_URL);
 
         RestAssured
                 .given()
-                    .content("application/json")
+                    .contentType(ContentType.JSON)
                     .body(form)
                 .post("/url")
                 .then()
                     .statusCode(200)
                     .body("longUrl", equalTo(LONG_URL))
-                    .body("id", equalTo("1"));
+                    .body("id", equalTo("b"));
     }
 
     @Test
@@ -62,7 +70,7 @@ public class UrlControllerTest {
 
         RestAssured
                 .given()
-                    .content("application/json")
+                    .contentType(ContentType.JSON)
                     .body(form)
                 .post("/url")
                 .then()
@@ -72,6 +80,7 @@ public class UrlControllerTest {
     //// Resolve endpoint
 
     @Test
+    @FlywayTest
     public void testResolve() throws Exception {
         String shortUrl = shortenUrl(LONG_URL);
 
@@ -97,6 +106,7 @@ public class UrlControllerTest {
     //// expands endpoint
 
     @Test
+    @FlywayTest
     public void testExpand() throws Exception {
         String shortUrl = shortenUrl(LONG_URL);
 
@@ -138,7 +148,7 @@ public class UrlControllerTest {
 
         return RestAssured
                 .given()
-                    .content("application/json")
+                    .contentType(ContentType.JSON)
                     .body(form)
                 .post("/url")
                 .then()

@@ -1,6 +1,7 @@
 package com.eckyputrady.shorturl.url;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,21 +16,22 @@ import java.io.IOException;
 @Slf4j
 public class UrlController {
 
+    @Autowired
+    private UrlService service;
+
     @RequestMapping(path = "/url", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ShortenedUrl shortenUrl(@Valid @RequestBody ShortenUrlForm form) {
-        log.info("Shortening form: {}", form);
-        return new ShortenedUrl();
+        return service.shortenUrl(form);
     }
 
     @RequestMapping("/url")
-    public ShortenedUrl expand(@Valid ShortUrlQueryParam param) {
-        log.info("Expanding {}", param);
-        return new ShortenedUrl();
+    public ShortenedUrl expand(@Valid ShortUrlQueryParam param) throws UrlService.NotFoundException {
+        return service.expand(param);
     }
 
     @RequestMapping("/{id}")
-    public void resolve(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
-        log.info("Resolving id {}", id);
-        response.sendRedirect("/" + id);
+    public void resolve(@PathVariable("id") String id, HttpServletResponse response) throws UrlService.NotFoundException, IOException {
+        String longUrl = service.resolveLongUrl(id);
+        response.sendRedirect(longUrl);
     }
 }

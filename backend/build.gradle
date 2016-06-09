@@ -36,6 +36,8 @@ dependencies {
 
     testCompile("junit:junit")
     testCompile("com.jayway.restassured:rest-assured:2.9.0")
+    testCompile group: 'org.flywaydb.flyway-test-extensions', name: 'flyway-spring-test', version: '4.0.1'
+
 }
 
 flyway {

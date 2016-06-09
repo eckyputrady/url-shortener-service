@@ -1,5 +1,6 @@
 package com.eckyputrady.shorturl.configuration.error;
 
+import com.eckyputrady.shorturl.url.UrlService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,5 +49,12 @@ public class ErrorHandlerControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorWrapper handle(MethodArgumentNotValidException e) {
         return ErrorWrapper.from(e.getBindingResult().getFieldErrors());
+    }
+
+    @ExceptionHandler(UrlService.NotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorWrapper handle(UrlService.NotFoundException e) {
+        return new ErrorWrapper(e.getMessage(), null);
     }
 }
