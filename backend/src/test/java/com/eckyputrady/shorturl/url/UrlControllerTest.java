@@ -159,6 +159,41 @@ public class UrlControllerTest {
                     .body("analytics.allTime.shortUrlClicks", equalTo(2));
     }
 
+    @Test
+    @FlywayTest
+    public void testExpandAnalytics_NoProjection_ShouldHaveNoAnalytics() throws Exception {
+        String shortUrl = shortenUrl(LONG_URL);
+        resolve(shortUrl);
+        resolve(shortUrl);
+
+        RestAssured
+                .given()
+                    .param("shortUrl", shortUrl)
+                .get("/url")
+                .then()
+                    .statusCode(200)
+                    .body("longUrl", equalTo(LONG_URL))
+                    .body("analytics", isEmptyOrNullString());
+    }
+
+    @Test
+    @FlywayTest
+    public void testExpandAnalytics_TopStringsProjection_ShouldHaveNoAnalyticsClicks() throws Exception {
+        String shortUrl = shortenUrl(LONG_URL);
+        resolve(shortUrl);
+        resolve(shortUrl);
+
+        RestAssured
+                .given()
+                    .param("shortUrl", shortUrl)
+                    .param("projection", "ANALYTICS_TOP_STRINGS")
+                .get("/url")
+                .then()
+                    .statusCode(200)
+                    .body("longUrl", equalTo(LONG_URL))
+                    .body("analytics.allTime.shortUrlClicks", isEmptyOrNullString());
+    }
+
     //// Helper
 
     private String shortenUrl(String longUrl) {

@@ -28,12 +28,19 @@ public class UrlService {
         ShortUrlRecord record = jooq.fetchOne(SHORT_URL, SHORT_URL.ID.eq(id));
         if (record == null) throw new NotFoundException(param.getShortUrl());
 
+        ShortenedUrl.AnalyticsData allTime = new ShortenedUrl.AnalyticsData();
+        if (param.getProjection() == Projection.ANALYTICS_CLICKS ||
+            param.getProjection() == Projection.FULL)
+            allTime.setShortUrlClicks(record.getClickCount());
+
+        ShortenedUrl.Analytics analytics = null;
+        if (param.getProjection() != null)
+            analytics = new ShortenedUrl.Analytics(allTime);
+
         return new ShortenedUrl(
                 UrlShortener.encode(record.getId()),
                 record.getLongUrl(),
-                new ShortenedUrl.Analytics(
-                        new ShortenedUrl.AnalyticsData(record.getClickCount())
-                )
+                analytics
         );
     }
 

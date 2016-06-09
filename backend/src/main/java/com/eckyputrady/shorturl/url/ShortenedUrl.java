@@ -30,6 +30,6 @@ public class ShortenedUrl {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AnalyticsData {
-        private long shortUrlClicks;
+        private Long shortUrlClicks;
     }
 }
