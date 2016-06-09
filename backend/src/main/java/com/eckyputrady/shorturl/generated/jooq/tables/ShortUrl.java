@@ -11,7 +11,7 @@ package com.eckyputrady.shorturl.generated.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ShortUrl extends org.jooq.impl.TableImpl<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord> {
 
-	private static final long serialVersionUID = 450072806;
+	private static final long serialVersionUID = -1607284924;
 
 	/**
 	 * The singleton instance of <code>short_url_service.short_url</code>
@@ -35,6 +35,11 @@ public class ShortUrl extends org.jooq.impl.TableImpl<com.eckyputrady.shorturl.g
 	 * The column <code>short_url_service.short_url.long_url</code>.
 	 */
 	public final org.jooq.TableField<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord, java.lang.String> LONG_URL = createField("long_url", org.jooq.impl.SQLDataType.VARCHAR.length(512).nullable(false), this, "");
+
+	/**
+	 * The column <code>short_url_service.short_url.click_count</code>.
+	 */
+	public final org.jooq.TableField<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord, java.lang.Long> CLICK_COUNT = createField("click_count", org.jooq.impl.SQLDataType.BIGINT.defaulted(true), this, "");
 
 	/**
 	 * Create a <code>short_url_service.short_url</code> table reference

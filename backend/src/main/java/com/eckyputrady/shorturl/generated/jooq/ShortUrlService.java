@@ -11,7 +11,7 @@ package com.eckyputrady.shorturl.generated.jooq;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ShortUrlService extends org.jooq.impl.SchemaImpl {
 
-	private static final long serialVersionUID = 1176861938;
+	private static final long serialVersionUID = 1687424703;
 
 	/**
 	 * The singleton instance of <code>short_url_service</code>
@@ -35,7 +35,6 @@ public class ShortUrlService extends org.jooq.impl.SchemaImpl {
 	private final java.util.List<org.jooq.Table<?>> getTables0() {
 		return java.util.Arrays.<org.jooq.Table<?>>asList(
 			com.eckyputrady.shorturl.generated.jooq.tables.SchemaVersion.SCHEMA_VERSION,
-			com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl.SHORT_URL,
-			com.eckyputrady.shorturl.generated.jooq.tables.ShortUrlAnalytics.SHORT_URL_ANALYTICS);
+			com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl.SHORT_URL);
 	}
 }

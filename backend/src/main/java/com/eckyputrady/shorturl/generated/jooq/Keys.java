@@ -31,7 +31,6 @@ public class Keys {
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final org.jooq.ForeignKey<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlAnalyticsRecord, com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord> SHORT_URL_ANALYTICS_IBFK_1 = ForeignKeys0.SHORT_URL_ANALYTICS_IBFK_1;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -44,9 +43,5 @@ public class Keys {
 	private static class UniqueKeys0 extends org.jooq.impl.AbstractKeys {
 		public static final org.jooq.UniqueKey<com.eckyputrady.shorturl.generated.jooq.tables.records.SchemaVersionRecord> KEY_SCHEMA_VERSION_PRIMARY = createUniqueKey(com.eckyputrady.shorturl.generated.jooq.tables.SchemaVersion.SCHEMA_VERSION, com.eckyputrady.shorturl.generated.jooq.tables.SchemaVersion.SCHEMA_VERSION.VERSION);
 		public static final org.jooq.UniqueKey<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord> KEY_SHORT_URL_PRIMARY = createUniqueKey(com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl.SHORT_URL, com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl.SHORT_URL.ID);
-	}
-
-	private static class ForeignKeys0 extends org.jooq.impl.AbstractKeys {
-		public static final org.jooq.ForeignKey<com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlAnalyticsRecord, com.eckyputrady.shorturl.generated.jooq.tables.records.ShortUrlRecord> SHORT_URL_ANALYTICS_IBFK_1 = createForeignKey(com.eckyputrady.shorturl.generated.jooq.Keys.KEY_SHORT_URL_PRIMARY, com.eckyputrady.shorturl.generated.jooq.tables.ShortUrlAnalytics.SHORT_URL_ANALYTICS, com.eckyputrady.shorturl.generated.jooq.tables.ShortUrlAnalytics.SHORT_URL_ANALYTICS.SHORT_URL_ID);
 	}
 }

@@ -22,9 +22,4 @@ public class Tables {
 	 * The table short_url_service.short_url
 	 */
 	public static final com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl SHORT_URL = com.eckyputrady.shorturl.generated.jooq.tables.ShortUrl.SHORT_URL;
-
-	/**
-	 * The table short_url_service.short_url_analytics
-	 */
-	public static final com.eckyputrady.shorturl.generated.jooq.tables.ShortUrlAnalytics SHORT_URL_ANALYTICS = com.eckyputrady.shorturl.generated.jooq.tables.ShortUrlAnalytics.SHORT_URL_ANALYTICS;
 }

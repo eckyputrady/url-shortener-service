@@ -24,22 +24,34 @@ public class UrlService {
     }
 
     public ShortenedUrl expand(ShortUrlQueryParam param) throws NotFoundException {
-        ShortUrlRecord record = jooq.fetchOne(SHORT_URL, SHORT_URL.ID.eq(UrlShortener.decode(param.getShortUrl())));
+        long id = UrlShortener.decode(param.getShortUrl());
+        ShortUrlRecord record = jooq.fetchOne(SHORT_URL, SHORT_URL.ID.eq(id));
         if (record == null) throw new NotFoundException(param.getShortUrl());
 
         return new ShortenedUrl(
                 UrlShortener.encode(record.getId()),
                 record.getLongUrl(),
                 new ShortenedUrl.Analytics(
-                        new ShortenedUrl.AnalyticsData(0)
+                        new ShortenedUrl.AnalyticsData(record.getClickCount())
                 )
         );
     }
 
-    public String resolveLongUrl(String id) throws NotFoundException {
-        ShortUrlRecord record = jooq.fetchOne(SHORT_URL, SHORT_URL.ID.eq(UrlShortener.decode(id)));
-        if (record == null) throw new NotFoundException(id);
+    public String resolveLongUrl(String shortUrl) throws NotFoundException {
+        long id = UrlShortener.decode(shortUrl);
+        ShortUrlRecord record = jooq.fetchOne(SHORT_URL, SHORT_URL.ID.eq(id));
+        if (record == null) throw new NotFoundException(shortUrl);
+
+        updateClickCount(record);
+
         return record.getLongUrl();
+    }
+
+    private void updateClickCount(ShortUrlRecord record) {
+        jooq.update(SHORT_URL)
+                .set(SHORT_URL.CLICK_COUNT, SHORT_URL.CLICK_COUNT.add(1))
+                .where(SHORT_URL.ID.equal(record.getId()))
+                .execute();
     }
 
     public static class NotFoundException extends Exception {
