@@ -34,7 +34,7 @@ dependencies {
 }
 
 flyway {
-    url = 'jdbc:mysql://localhost:3306/ombaq_backend'
+    url = 'jdbc:mysql://localhost:3306/short_url_service'
     user = 'root'
 }
 
