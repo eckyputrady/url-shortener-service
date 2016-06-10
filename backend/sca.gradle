@@ -24,6 +24,12 @@ findbugs {
     ignoreFailures = true
 }
 
+tasks.withType(FindBugs) {
+    classes = classes.filter {
+        !it.path.contains(new File("/generated/").path)
+    }
+}
+
 jdepend {
     ignoreFailures = true
 }
