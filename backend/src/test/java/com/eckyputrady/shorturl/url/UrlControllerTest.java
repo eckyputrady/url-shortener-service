@@ -5,6 +5,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.RedirectConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.ValidatableResponse;
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
 import org.junit.Before;
@@ -82,23 +83,14 @@ public class UrlControllerTest {
     public void testResolve() throws Exception {
         String shortUrl = shortenUrl(LONG_URL);
 
-        RestAssured
-                .given()
-                    .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
-                .get("/" + shortUrl)
-                .then()
-                    .statusCode(HttpStatus.TEMPORARY_REDIRECT.value())
-                    .header("Location", LONG_URL);
+        resolve("/" + shortUrl)
+                .statusCode(HttpStatus.TEMPORARY_REDIRECT.value())
+                .header("Location", LONG_URL);
     }
 
     @Test
     public void testResolve_NotFoundUrl_Returns404() throws Exception {
-        RestAssured
-                .given()
-                    .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
-                .get("/invalid")
-                .then()
-                    .statusCode(HttpStatus.NOT_FOUND.value());
+        resolve("/invalid").statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     //// expands endpoint
@@ -108,25 +100,15 @@ public class UrlControllerTest {
     public void testExpand() throws Exception {
         String shortUrl = shortenUrl(LONG_URL);
 
-        RestAssured
-                .given()
-                    .param("shortUrl", shortUrl)
-                    .param("projection", "FULL")
-                .get("/url")
-                .then()
-                    .statusCode(HttpStatus.OK.value())
-                    .body("longUrl", equalTo(LONG_URL))
-                    .body("analytics.allTime.shortUrlClicks", equalTo(0));
+        expand(shortUrl)
+                .statusCode(HttpStatus.OK.value())
+                .body("longUrl", equalTo(LONG_URL))
+                .body("analytics.allTime.shortUrlClicks", equalTo(0));
     }
 
     @Test
     public void testExpand_NotFoundUrl_Returns404() throws Exception {
-        RestAssured
-                .given()
-                    .param("shortUrl", "unregistered_short_url")
-                .get("/url")
-                .then()
-                    .statusCode(HttpStatus.NOT_FOUND.value());
+        expand("unregistered_url").statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     @Test
@@ -207,12 +189,20 @@ public class UrlControllerTest {
                         .path("id");
     }
 
-    private void resolve(String shortUrl) {
-        RestAssured
+    private ValidatableResponse expand(String shortUrl) {
+        return RestAssured
+                .given()
+                    .param("shortUrl", shortUrl)
+                    .param("projection", "FULL")
+                .get("/url")
+                .then();
+    }
+
+    private ValidatableResponse resolve(String shortUrl) {
+        return RestAssured
                 .given()
                     .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
                 .get("/" + shortUrl)
-                    .then()
-                    .statusCode(HttpStatus.TEMPORARY_REDIRECT.value());
+                    .then();
     }
 }
