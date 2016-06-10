@@ -15,13 +15,6 @@ public class ErrorWrapper {
     private String message;
     private Collection<Message> errors;
 
-    @Data
-    @AllArgsConstructor
-    public static class Message {
-        private String location;
-        private String message;
-    }
-
     public static ErrorWrapper from(Collection<FieldError> fieldErrors) {
         return new ErrorWrapper(
                 "Invalid parameter",
@@ -29,5 +22,12 @@ public class ErrorWrapper {
                         new Message(x.getField(), x.isBindingFailure() ? "Invalid value" : x.getDefaultMessage())
                 ).collect(Collectors.toList())
         );
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Message {
+        private String location;
+        private String message;
     }
 }

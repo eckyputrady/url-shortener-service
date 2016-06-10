@@ -29,8 +29,8 @@ public class UrlService {
         if (record == null) throw new NotFoundException(param.getShortUrl());
 
         ShortenedUrl.AnalyticsData allTime = new ShortenedUrl.AnalyticsData();
-        if (param.getProjection() == Projection.ANALYTICS_CLICKS ||
-            param.getProjection() == Projection.FULL)
+        if (param.getProjection() == Projection.ANALYTICS_CLICKS
+            || param.getProjection() == Projection.FULL)
             allTime.setShortUrlClicks(record.getClickCount());
 
         ShortenedUrl.Analytics analytics = null;

@@ -6,18 +6,20 @@
 <module name="Checker">
 
     <property name="severity" value="warning" />
+    <module name="SuppressWarningsFilter" />
 
     <module name="TreeWalker">
 
         <property name="tabWidth" value="4" />
+        <module name="SuppressWarningsHolder" />
         <module name="ConstantName" />
         <module name="LocalFinalVariableName" />
         <module name="LocalVariableName" />
-        <module name="MethodName" />
+        <!--<module name="MethodName" />-->
         <module name="PackageName" />
         <module name="ParameterName" />
         <module name="TypeName" />
-        <module name="AvoidStarImport" />
+        <!--<module name="AvoidStarImport" />-->
         <module name="IllegalImport" />
         <module name="RedundantImport" />
         <module name="UnusedImports" />
@@ -45,7 +47,7 @@
         <module name="AvoidNestedBlocks" />
         <module name="EmptyBlock" />
         <module name="LeftCurly" />
-        <module name="NeedBraces" />
+        <!--<module name="NeedBraces" />-->
         <module name="RightCurly" />
         <module name="EmptyStatement" />
         <module name="EqualsHashCode" />
@@ -64,7 +66,7 @@
             <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit" />
         </module>
         <module name="FinalClass" />
-        <module name="HideUtilityClassConstructor" />
+        <!--<module name="HideUtilityClassConstructor" />-->
         <module name="InterfaceIsType" />
         <module name="ArrayTypeStyle" />
         <module name="FinalParameters">
@@ -79,9 +81,9 @@
         <module name="MethodLength">
             <property name="max" value="40" />
         </module>
-        <module name="LineLength">
-            <property name="max" value="100" />
-        </module>
+        <!--<module name="LineLength">-->
+            <!--<property name="max" value="100" />-->
+        <!--</module>-->
         <module name="InnerTypeLast" />
     </module>
     <module name="NewlineAtEndOfFile">

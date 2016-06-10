@@ -7,22 +7,20 @@ import com.jayway.restassured.config.RestAssuredConfig;
 import com.jayway.restassured.http.ContentType;
 import org.flywaydb.test.annotation.FlywayTest;
 import org.flywaydb.test.junit.FlywayTestExecutionListener;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 
 /**
  * Created by ecky on 08/06/16.
@@ -59,7 +57,7 @@ public class UrlControllerTest {
                     .body(form)
                 .post("/url")
                 .then()
-                    .statusCode(200)
+                    .statusCode(HttpStatus.OK.value())
                     .body("longUrl", equalTo(LONG_URL))
                     .body("id", equalTo("b"));
     }
@@ -74,7 +72,7 @@ public class UrlControllerTest {
                     .body(form)
                 .post("/url")
                 .then()
-                    .statusCode(400);
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     //// Resolve endpoint
@@ -89,7 +87,7 @@ public class UrlControllerTest {
                     .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
                 .get("/" + shortUrl)
                 .then()
-                    .statusCode(302)
+                    .statusCode(HttpStatus.TEMPORARY_REDIRECT.value())
                     .header("Location", LONG_URL);
     }
 
@@ -100,7 +98,7 @@ public class UrlControllerTest {
                     .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
                 .get("/invalid")
                 .then()
-                    .statusCode(404);
+                    .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     //// expands endpoint
@@ -116,7 +114,7 @@ public class UrlControllerTest {
                     .param("projection", "FULL")
                 .get("/url")
                 .then()
-                    .statusCode(200)
+                    .statusCode(HttpStatus.OK.value())
                     .body("longUrl", equalTo(LONG_URL))
                     .body("analytics.allTime.shortUrlClicks", equalTo(0));
     }
@@ -128,7 +126,7 @@ public class UrlControllerTest {
                     .param("shortUrl", "unregistered_short_url")
                 .get("/url")
                 .then()
-                    .statusCode(404);
+                    .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     @Test
@@ -138,7 +136,7 @@ public class UrlControllerTest {
                     .param("projection", "invalid_projection")
                 .get("/url")
                 .then()
-                    .statusCode(400);
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -154,7 +152,7 @@ public class UrlControllerTest {
                     .param("projection", "FULL")
                 .get("/url")
                 .then()
-                    .statusCode(200)
+                    .statusCode(HttpStatus.OK.value())
                     .body("longUrl", equalTo(LONG_URL))
                     .body("analytics.allTime.shortUrlClicks", equalTo(2));
     }
@@ -171,7 +169,7 @@ public class UrlControllerTest {
                     .param("shortUrl", shortUrl)
                 .get("/url")
                 .then()
-                    .statusCode(200)
+                    .statusCode(HttpStatus.OK.value())
                     .body("longUrl", equalTo(LONG_URL))
                     .body("analytics", isEmptyOrNullString());
     }
@@ -189,7 +187,7 @@ public class UrlControllerTest {
                     .param("projection", "ANALYTICS_TOP_STRINGS")
                 .get("/url")
                 .then()
-                    .statusCode(200)
+                    .statusCode(HttpStatus.OK.value())
                     .body("longUrl", equalTo(LONG_URL))
                     .body("analytics.allTime.shortUrlClicks", isEmptyOrNullString());
     }
@@ -215,6 +213,6 @@ public class UrlControllerTest {
                     .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
                 .get("/" + shortUrl)
                     .then()
-                    .statusCode(302);
+                    .statusCode(HttpStatus.TEMPORARY_REDIRECT.value());
     }
 }

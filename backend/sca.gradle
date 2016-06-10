@@ -17,6 +17,8 @@ checkstyle {
     ignoreFailures = true
 }
 
+checkstyleMain.exclude '**/generated/**'
+
 findbugs {
     ignoreFailures = true
 }

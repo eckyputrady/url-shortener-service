@@ -10,7 +10,7 @@ public class UrlShortener {
     public static String encode(long num) {
         StringBuilder sb = new StringBuilder();
         while (true) {
-            int idx = (int)(num % BASE);
+            int idx = (int) (num % BASE);
             sb.append(DIGITS.charAt(idx));
             num /= BASE;
             if (num <= 0) break;

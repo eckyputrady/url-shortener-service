@@ -23,7 +23,8 @@ public class UrlShortenerTest {
         this.decoded = decoded;
     }
 
-    @Parameterized.Parameters(name= "{index}: encoded({0})=decoded({1})")
+    @Parameterized.Parameters(name = "{index}: encoded({0}) <--> decoded({1})")
+    @SuppressWarnings("checkstyle:magicnumber")
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 { "a", 0L },
