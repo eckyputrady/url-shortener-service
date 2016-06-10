@@ -84,7 +84,7 @@ public class UrlControllerTest {
         String shortUrl = shortenUrl(LONG_URL);
 
         resolve("/" + shortUrl)
-                .statusCode(HttpStatus.TEMPORARY_REDIRECT.value())
+                .statusCode(HttpStatus.FOUND.value())
                 .header("Location", LONG_URL);
     }
 
@@ -202,7 +202,7 @@ public class UrlControllerTest {
         return RestAssured
                 .given()
                     .config(RestAssuredConfig.config().redirect(RedirectConfig.redirectConfig().followRedirects(false)))
-                .get("/" + shortUrl)
+                .get(shortUrl)
                     .then();
     }
 }
