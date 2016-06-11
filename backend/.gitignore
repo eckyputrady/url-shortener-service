@@ -1,4 +1,5 @@
 build/
+*.iml
 *.diff
 *.err
 *.orig
